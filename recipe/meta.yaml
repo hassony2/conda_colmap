@@ -1,0 +1,77 @@
+{% set version = "3.6.0" %}
+
+package:
+  name: colmap
+  version: {{ version }}
+
+source:
+  git_url: https://github.com/colmap/colmap
+  git_rev: 3.6
+  
+
+build:
+  number: 1
+  # https://github.com/dcnieho/FreeGLUT/issues/27
+  # Maybe someday we'll build with X11 on osx:
+  # https://github.com/Homebrew/homebrew-core/blob/master/Formula/freeglut.rb
+  skip: true                      # [osx]
+
+requirements:
+  build:
+    - cmake
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ cdt('libxcb') }}               # [linux]
+    - {{ cdt('libxi-devel') }}          # [linux]
+    - {{ cdt('libx11-devel') }}         # [linux]
+    - {{ cdt('libxau-devel') }}         # [linux]
+    - {{ cdt('libxext-devel') }}        # [linux]
+    - {{ cdt('libxfixes-devel') }}      # [linux]
+    - {{ cdt('mesa-libgl-devel') }}     # [linux]
+    - {{ cdt('libxdamage') }}
+    - {{ cdt('libxfixes') }}  
+    - {{ cdt('libxxf86vm') }} 
+    - {{ cdt('mesa-dri-drivers') }} 
+    - {{ cdt('mesa-libegl-devel') }}
+    - {{ cdt('libselinux') }} 
+    - {{ cdt('xorg-x11-proto-devel') }} # [linux]
+  host:
+    - eigen
+    - cmake
+    - ceres-solver
+    - glew
+    - qt
+    - boost
+    - git
+    - freeimage
+    - expat
+    - libglu                            # [linux]
+
+test:
+  commands:
+    # Test includes.
+    - test -d "${PREFIX}/include/GL"  # [linux]
+
+      # Test libraries.
+    - test -f "${PREFIX}/lib/libglut.a"   # [linux]
+    - test -f "${PREFIX}/lib/libglut.so"  # [linux]
+    - ldd "${PREFIX}/lib/libglut.so"      # [linux]
+
+    # Test Windows includes and libraries.
+    - if not exist %LIBRARY_INC%\\GL\\freeglut.h     exit 1   # [win]
+    - if not exist %LIBRARY_INC%\\GL\\freeglut_ext.h exit 1   # [win]
+    - if not exist %LIBRARY_INC%\\GL\\freeglut_std.h exit 1   # [win]
+    - if not exist %LIBRARY_INC%\\GL\\glut.h         exit 1   # [win]
+    - if not exist %LIBRARY_LIB%\\freeglut.lib       exit 1   # [win]
+    - if not exist %LIBRARY_BIN%\\freeglut.dll       exit 1   # [win]
+
+about:
+  home: http://colmap.github.io/
+  license: BSD
+  license_family: BSD
+  license_file: COPYING
+  summary: Rigid SfM.
+
+extra:
+  recipe-maintainers:
+    - hassony2
