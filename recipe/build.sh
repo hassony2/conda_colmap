@@ -14,5 +14,5 @@ cmake \
         -DBOOST_STATIC=OFF                      \
         ${CMAKE_PLATFORM_FLAGS[@]}              \
 	..
-make
+make -j 4
 make install

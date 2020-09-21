@@ -36,16 +36,19 @@ requirements:
     - {{ cdt('libselinux') }} 
     - {{ cdt('xorg-x11-proto-devel') }} # [linux]
   host:
-    - eigen
-    - cmake
+    - boost-cpp
     - ceres-solver
+    - cmake
+    - eigen
+    - freeimage
+    - git
     - glew
     - qt
-    - boost
-    - git
+  run:
+    - ceres-solver
+    - boost-cpp
     - freeimage
-    - expat
-    - libglu                            # [linux]
+    - qt
 
 test:
   commands:
@@ -53,23 +56,16 @@ test:
     - test -d "${PREFIX}/include/GL"  # [linux]
 
       # Test libraries.
-    - test -f "${PREFIX}/lib/libglut.a"   # [linux]
-    - test -f "${PREFIX}/lib/libglut.so"  # [linux]
-    - ldd "${PREFIX}/lib/libglut.so"      # [linux]
+    - test -f "${PREFIX}/bin/colmap"   # [linux]
 
     # Test Windows includes and libraries.
-    - if not exist %LIBRARY_INC%\\GL\\freeglut.h     exit 1   # [win]
-    - if not exist %LIBRARY_INC%\\GL\\freeglut_ext.h exit 1   # [win]
-    - if not exist %LIBRARY_INC%\\GL\\freeglut_std.h exit 1   # [win]
-    - if not exist %LIBRARY_INC%\\GL\\glut.h         exit 1   # [win]
-    - if not exist %LIBRARY_LIB%\\freeglut.lib       exit 1   # [win]
-    - if not exist %LIBRARY_BIN%\\freeglut.dll       exit 1   # [win]
+    - if not exist %LIBRARY_BIN%\\colmap             exit 1   # [win]
 
 about:
   home: http://colmap.github.io/
   license: BSD
   license_family: BSD
-  license_file: COPYING
+  license_file: LICENSE
   summary: Rigid SfM.
 
 extra:
