@@ -19,8 +19,9 @@ build:
 requirements:
   build:
     - cmake
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
+    - git
+    - {{ compiler('c') }}               # [linux]
+    - {{ compiler('cxx') }}             # [linux]
     - {{ cdt('libxcb') }}               # [linux]
     - {{ cdt('libxi-devel') }}          # [linux]
     - {{ cdt('libx11-devel') }}         # [linux]
@@ -28,26 +29,28 @@ requirements:
     - {{ cdt('libxext-devel') }}        # [linux]
     - {{ cdt('libxfixes-devel') }}      # [linux]
     - {{ cdt('mesa-libgl-devel') }}     # [linux]
-    - {{ cdt('libxdamage') }}
-    - {{ cdt('libxfixes') }}  
-    - {{ cdt('libxxf86vm') }} 
-    - {{ cdt('mesa-dri-drivers') }} 
-    - {{ cdt('mesa-libegl-devel') }}
-    - {{ cdt('libselinux') }} 
+    - {{ cdt('mesa-libegl-devel') }}    # [linux]
+    - {{ cdt('libxdamage') }}           # [linux]
+    - {{ cdt('libxfixes') }}            # [linux]
+    - {{ cdt('libxxf86vm') }}           # [linux]
+    - {{ cdt('mesa-dri-drivers') }}     # [linux]
+    - {{ cdt('libselinux') }}           # [linux]
     - {{ cdt('xorg-x11-proto-devel') }} # [linux]
   host:
-    - boost-cpp
+    - boost-cpp {{ boost }}
     - ceres-solver
-    - cmake
+    - cgal
     - eigen
     - freeimage
-    - git
     - glew
     - qt
   run:
+    - {{ pin_compatible('boost-cpp', max_pin='1.72.x') }}
     - ceres-solver
-    - boost-cpp
+    - cgal
+    - eigen
     - freeimage
+    - glew
     - qt
 
 test:
