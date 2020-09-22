@@ -37,21 +37,21 @@ requirements:
     - {{ cdt('libselinux') }}           # [linux]
     - {{ cdt('xorg-x11-proto-devel') }} # [linux]
   host:
-    - boost-cpp {{ boost }}
-    - ceres-solver
+    - boost-cpp ==1.72
+    - ceres-solver ==1.14
     - cgal
     - eigen
     - freeimage
-    - glew
-    - qt
+    - glew ==2.1
+    - qt ==5.12.9
   run:
-    - {{ pin_compatible('boost-cpp', max_pin='1.72.x') }}
-    - ceres-solver
+    - boost-cpp ==1.72
+    - ceres-solver ==1.14
     - cgal
     - eigen
     - freeimage
-    - glew
-    - qt
+    - glew ==2.1
+    - qt ==5.12.9
 
 test:
   commands:
